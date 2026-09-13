@@ -1,0 +1,28 @@
+{
+  "name": "zk-medical-triage",
+  "version": "2.0.0",
+  "type": "module",
+  "description": "ZK Emergency Triage on Creditcoin Testnet, Attestcoin, and Ethereum Sepolia",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "check-contracts": "node scripts/checkContracts.js",
+    "deploy:creditcoin": "node scripts/deployCreditcoin.js"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jimp": "^1.6.1",
+    "jsqr": "^1.4.0",
+    "multer": "^2.2.0",
+    "qrcode": "^1.5.4",
+    "solc": "^0.8.36"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ethers": "^4.0.15",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "ethers": "^6.17.0",
+    "hardhat": "^3.16.0"
+  }
+}

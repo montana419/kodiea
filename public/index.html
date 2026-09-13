@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZK Medical Triage | Emergency Response Protocol</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            clinical: {
+              50: '#F8FAFC',   /* Crisp Off-White */
+              100: '#F1F5F9',  /* Light Neutral Surface */
+              200: '#E2E8F0',  /* Subtle Divider Border */
+              300: '#CBD5E1',  /* Border Hover */
+              400: '#94A3B8',  /* Muted Text / Captions */
+              500: '#64748B',  /* Secondary Text */
+              600: '#0284C7',  /* Interactive Sky Accent */
+              700: '#0369A1',  /* Primary Action Blue */
+              800: '#0F2942',  /* Deep Clinical Navy */
+              900: '#0A192F',  /* Midnight Header / Base Accent */
+              950: '#020617'   /* Highest Contrast Text */
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .glass-card {
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(16px);
+      border: 1px solid #E2E8F0;
+    }
+    .slide-fade {
+      transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</head>
+<body class="bg-clinical-50 text-clinical-950 min-h-screen flex flex-col antialiased">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 bg-clinical-900 border-b border-clinical-800 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-clinical-700 text-white p-2 rounded-md shadow-sm">
+          <i data-lucide="shield-pulse" class="w-5 h-5"></i>
+        </div>
+        <span class="font-bold text-lg tracking-tight text-white">
+          KODI <span class="text-sky-400 font-extrabold"><i>ea.</i></span>
+        </span>
+      </div>
+      <nav class="hidden md:flex space-x-8 text-sm font-medium text-clinical-300">
+        <a href="#features" class="hover:text-white transition-colors">Architecture</a>
+        <a href="#terminal" class="hover:text-white transition-colors">Triage Terminal</a>
+        <a href="#docs" class="hover:text-white transition-colors">Verification Spec</a>
+      </nav>
+      <div class="flex items-center space-x-3">
+        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-clinical-800 text-sky-300 border border-clinical-700">
+          <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse mr-2"></span>
+          Sepolia & Creditcoin Active
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH SLIDESHOW -->
+  <section class="relative overflow-hidden bg-white border-b border-clinical-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-20 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      
+      <!-- Left Content -->
+      <div class="lg:col-span-6 space-y-6">
+        <div class="inline-flex items-center space-x-2 bg-clinical-100 text-clinical-800 px-3 py-1 rounded-full text-xs font-semibold border border-clinical-200 tracking-wide uppercase">
+          <i data-lucide="zap" class="w-3.5 h-3.5 text-clinical-700"></i>
+          <span>Instant Field Identification</span>
+        </div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight leading-tight text-clinical-950">
+          Rapid Emergency Triage Powered by <span class="text-clinical-700">Decentralized Records</span>
+        </h1>
+        <p class="text-clinical-500 text-base sm:text-lg leading-relaxed">
+          Stateless, instant medical identification using QR wristbands and phone stickers. Authorizes first responders to fetch immutable patient profiles directly from IPFS with verifiable Creditcoin audit trails.
+        </p>
+        <div class="flex flex-wrap gap-4 pt-2">
+          <a href="#terminal" class="bg-clinical-700 hover:bg-clinical-800 text-white font-semibold px-6 py-3 rounded-lg shadow-md transition-all flex items-center space-x-2">
+            <span>Open Triage Terminal</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+          <a href="#features" class="bg-clinical-50 hover:bg-clinical-100 text-clinical-800 font-semibold px-6 py-3 rounded-lg border border-clinical-200 transition-all">
+            System Specs
+          </a>
+        </div>
+      </div>
+
+      <!-- Right Slideshow -->
+      <div class="lg:col-span-6 relative">
+        <div id="slideshow-container" class="relative h-[360px] sm:h-[420px] rounded-2xl overflow-hidden border border-clinical-300 shadow-xl bg-clinical-900">
+          
+          <!-- Slide 1: QR Gear -->
+          <div class="slide slide-fade absolute inset-0 opacity-100 flex flex-col justify-between p-8 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(10,25,47,0.92), rgba(10,25,47,0.2)), url('/qr-gear.jpg');">
+            <span class="bg-clinical-900/90 border border-clinical-700 text-sky-300 text-xs font-semibold px-3 py-1 rounded-md w-max backdrop-blur-sm">1. QR Ecosystem Hardware</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white mb-2">QR Wristbands & Phone Pouches</h3>
+              <p class="text-clinical-300 text-sm">Color-coded wristbands, phone pouches, and scan stickers linking directly to encrypted IPFS records.</p>
+            </div>
+          </div>
+
+          <!-- Slide 2: Ambulance Dispatch -->
+          <div class="slide slide-fade absolute inset-0 opacity-0 flex flex-col justify-between p-8 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(10,25,47,0.92), rgba(10,25,47,0.3)), url('https://images.unsplash.com/photo-1587745416684-47953f16f02f?auto=format&fit=crop&w=1000&q=80');">
+            <span class="bg-clinical-900/90 border border-clinical-700 text-sky-300 text-xs font-semibold px-3 py-1 rounded-md w-max backdrop-blur-sm">2. Mobile Dispatch Units</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white mb-2">Ambulance Emergency Triage</h3>
+              <p class="text-clinical-300 text-sm">Empowering paramedics to decode medical histories during high-speed transit.</p>
+            </div>
+          </div>
+
+          <!-- Slide 3: Patient Wristband Close-up -->
+          <div class="slide slide-fade absolute inset-0 opacity-0 flex flex-col justify-between p-8 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(10,25,47,0.92), rgba(10,25,47,0.3)), url('https://images.unsplash.com/photo-1603398938378-e54eab446dde?auto=format&fit=crop&w=1000&q=80');">
+            <span class="bg-clinical-900/90 border border-clinical-700 text-sky-300 text-xs font-semibold px-3 py-1 rounded-md w-max backdrop-blur-sm">3. Patient Identification</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white mb-2">Encrypted QR Wristbands</h3>
+              <p class="text-clinical-300 text-sm">Wearable medical tags linking instantly to decentralized IPFS patient files.</p>
+            </div>
+          </div>
+
+          <!-- Slide 4: Disaster Response -->
+          <div class="slide slide-fade absolute inset-0 opacity-0 flex flex-col justify-between p-8 bg-cover bg-center" style="background-image: linear-gradient(to top, rgba(10,25,47,0.92), rgba(10,25,47,0.3)), url('https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1000&q=80');">
+            <span class="bg-clinical-900/90 border border-clinical-700 text-sky-300 text-xs font-semibold px-3 py-1 rounded-md w-max backdrop-blur-sm">4. Field Command</span>
+            <div>
+              <h3 class="text-2xl font-bold text-white mb-2">Heavy Emergency Response</h3>
+              <p class="text-clinical-300 text-sm">Field command units equipped with offline-first ZK verification terminals.</p>
+            </div>
+          </div>
+
+          <!-- Slide Controls -->
+          <div class="absolute bottom-4 right-4 flex space-x-2 z-10">
+            <button id="prevSlide" class="p-2 rounded-md bg-clinical-900/90 hover:bg-clinical-800 text-white border border-clinical-700 shadow transition"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+            <button id="nextSlide" class="p-2 rounded-md bg-clinical-900/90 hover:bg-clinical-800 text-white border border-clinical-700 shadow transition"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FEATURES ARCHITECTURE SECTION -->
+  <section id="features" class="py-16 bg-clinical-100 border-b border-clinical-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <h2 class="text-3xl font-extrabold text-clinical-950">Designed for Rapid Emergency Fieldwork</h2>
+        <p class="text-clinical-500 mt-2">Integrating decentralized storage and EVM smart contracts for zero-latency medical lookup.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl border border-clinical-200 shadow-sm space-y-3">
+          <div class="p-3 bg-clinical-100 text-clinical-700 rounded-lg w-max"><i data-lucide="qr-code" class="w-6 h-6"></i></div>
+          <h3 class="text-xl font-bold text-clinical-950">QR Wristband & Sticker Scanning</h3>
+          <p class="text-clinical-500 text-sm">Instantly decode patient wristbands or phone pouch stickers from any camera-enabled terminal.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-clinical-200 shadow-sm space-y-3">
+          <div class="p-3 bg-clinical-100 text-clinical-700 rounded-lg w-max"><i data-lucide="award" class="w-6 h-6"></i></div>
+          <h3 class="text-xl font-bold text-clinical-950">Sepolia EMT Credentials</h3>
+          <p class="text-clinical-500 text-sm">Paramedic identity is verified against smart contracts using Sepolia ERC-721 tokens.</p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl border border-clinical-200 shadow-sm space-y-3">
+          <div class="p-3 bg-clinical-100 text-clinical-700 rounded-lg w-max"><i data-lucide="shield-check" class="w-6 h-6"></i></div>
+          <h3 class="text-xl font-bold text-clinical-950">Creditcoin Access Logging</h3>
+          <p class="text-clinical-500 text-sm">Triage requests generate cryptographic 32-byte hash audit receipts recorded directly on-chain.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN TERMINAL APP SECTION -->
+  <section id="terminal" class="py-16 bg-clinical-50 flex-1">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- TERMINAL CARD -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-xl border border-clinical-200">
+        
+        <!-- Tab Controls Header -->
+        <div class="flex border-b border-clinical-200 bg-clinical-100 p-2 gap-2 overflow-x-auto">
+          <button id="tab-triage" onclick="switchTab('triageTab')" class="tab-btn flex items-center space-x-2 px-5 py-3 rounded-lg text-sm font-bold text-white bg-clinical-700 shadow-sm transition">
+            <i data-lucide="siren" class="w-4 h-4"></i>
+            <span>Emergency Triage</span>
+          </button>
+          <button id="tab-register" onclick="switchTab('registerTab')" class="tab-btn flex items-center space-x-2 px-5 py-3 rounded-lg text-sm font-bold text-clinical-500 hover:text-clinical-950 hover:bg-white transition">
+            <i data-lucide="user-plus" class="w-4 h-4"></i>
+            <span>Register Patient</span>
+          </button>
+          <button id="tab-license" onclick="switchTab('licenseTab')" class="tab-btn flex items-center space-x-2 px-5 py-3 rounded-lg text-sm font-bold text-clinical-500 hover:text-clinical-950 hover:bg-white transition">
+            <i data-lucide="award" class="w-4 h-4"></i>
+            <span>Issue EMT License</span>
+          </button>
+        </div>
+
+        <div class="p-6 sm:p-8 bg-white">
+          
+          <!-- TAB 1: TRIAGE TERMINAL -->
+          <div id="triageTab" class="tab-content space-y-6">
+            <div>
+              <h2 class="text-2xl font-bold text-clinical-950">Emergency Triage Terminal</h2>
+              <p class="text-clinical-500 text-sm mt-1">Upload a patient QR wristband or phone sticker image to verify EMT credentials and fetch IPFS data.</p>
+            </div>
+
+            <form id="triageUploadForm" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-2">Patient Barcode Image (Wristband / Phone Sticker)</label>
+                <input type="file" id="barcodeFile" accept="image/*" required class="w-full text-sm text-clinical-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-clinical-100 file:text-clinical-800 hover:file:bg-clinical-200 bg-clinical-50 border border-clinical-200 rounded-lg p-2">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-2">EMT Wallet Address (Sepolia Verified)</label>
+                <input type="text" id="emtAddress" value="0x70997970C51812dc3A010C7d01b50e0d17dc79C8" required class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2.5 text-sm text-clinical-950 focus:outline-none focus:border-clinical-700 font-mono">
+              </div>
+
+              <button type="submit" class="w-full bg-clinical-700 hover:bg-clinical-800 text-white font-semibold py-3 rounded-lg transition shadow-md flex items-center justify-center space-x-2">
+                <i data-lucide="qr-code" class="w-4 h-4"></i>
+                <span>UPLOAD BARCODE & DECODE PATIENT</span>
+              </button>
+            </form>
+
+            <div class="pt-4 border-t border-clinical-200">
+              <h3 class="text-xs font-bold uppercase text-clinical-800 tracking-wider mb-3">Triage Log Output</h3>
+              <div id="triageOutput" class="bg-clinical-50 rounded-xl p-4 border border-clinical-200 min-h-[120px] text-sm flex items-center justify-center">
+                <p class="text-clinical-400 italic">Awaiting barcode image upload...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: REGISTER PATIENT -->
+          <div id="registerTab" class="tab-content hidden space-y-6">
+            <div>
+              <h2 class="text-2xl font-bold text-clinical-950">Register New Patient</h2>
+              <p class="text-clinical-500 text-sm mt-1">Pin new medical records to IPFS and generate wristband or phone pouch barcodes.</p>
+            </div>
+
+            <form id="registerForm" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-1">Full Name <span class="text-clinical-400 font-normal">(Letters, hyphens, dots)</span></label>
+                <input type="text" id="regName" placeholder="e.g. Sarah Connor-Smith Jr." pattern="[a-zA-Z\s.-]+" required class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2 text-sm text-clinical-950 focus:border-clinical-700 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-1">Date of Birth</label>
+                <input type="date" id="regDob" required class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2 text-sm text-clinical-950 focus:border-clinical-700 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-1">Blood Type</label>
+                <input type="text" id="regBlood" placeholder="e.g. O-Positive" pattern="[a-zA-Z\s.-]+" class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2 text-sm text-clinical-950 focus:border-clinical-700 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-1">Emergency Contact</label>
+                <input type="text" id="regContact" placeholder="+1 (555) 019-2831" pattern="[0-9+() \s.-]+" class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2 text-sm text-clinical-950 focus:border-clinical-700 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-1">Allergies (comma-separated)</label>
+                <input type="text" id="regAllergies" placeholder="Penicillin, Sulfa" pattern="[a-zA-Z0-9,\s.-]+" class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2 text-sm text-clinical-950 focus:border-clinical-700 focus:outline-none">
+              </div>
+
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-1">Medical Conditions</label>
+                <input type="text" id="regConditions" placeholder="Asthma, Diabetes" pattern="[a-zA-Z0-9,\s.-]+" class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2 text-sm text-clinical-950 focus:border-clinical-700 focus:outline-none">
+              </div>
+
+              <div class="sm:col-span-2 pt-2">
+                <button type="submit" class="w-full bg-clinical-700 hover:bg-clinical-800 text-white font-semibold py-3 rounded-lg transition shadow-md flex items-center justify-center space-x-2">
+                  <i data-lucide="user-check" class="w-4 h-4"></i>
+                  <span>REGISTER & GENERATE BARCODE</span>
+                </button>
+              </div>
+            </form>
+
+            <div id="newRegistrationResult" class="hidden bg-clinical-50 p-6 rounded-xl border border-clinical-200 text-center space-y-4">
+              <span class="inline-flex items-center space-x-2 text-clinical-800 font-bold text-lg">
+                <i data-lucide="check-circle-2" class="w-5 h-5 text-clinical-700"></i>
+                <span>Patient Registered Successfully!</span>
+              </span>
+              <div class="flex justify-center">
+                <img id="newBarcodeImg" src="" alt="Barcode" class="w-44 h-44 bg-white p-2 rounded-lg border border-clinical-200 shadow-sm">
+              </div>
+              <p id="newBarcodeDetails" class="text-xs text-clinical-500 font-mono"></p>
+              <a id="downloadBtn" href="" download="" class="inline-flex items-center space-x-2 bg-clinical-700 hover:bg-clinical-800 text-white font-semibold px-6 py-2.5 rounded-lg text-sm transition shadow-sm">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>DOWNLOAD BARCODE (WRISTBAND / STICKER)</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- TAB 3: ISSUE LICENSE -->
+          <div id="licenseTab" class="tab-content hidden space-y-6">
+            <div>
+              <h2 class="text-2xl font-bold text-clinical-950">Issue EMT License Token</h2>
+              <p class="text-clinical-500 text-sm mt-1">Mint an ERC-721 credential token on Sepolia to grant triage authorization to an EMT wallet address.</p>
+            </div>
+
+            <form id="issueLicenseForm" class="space-y-4">
+              <div>
+                <label class="block text-xs font-bold text-clinical-800 uppercase tracking-wider mb-2">Target Wallet Address (0x...)</label>
+                <input type="text" id="targetEmtAddress" placeholder="0x..." pattern="^0x[a-fA-F0-9]{40}$" title="Must be a valid 40-character EVM address starting with 0x" required class="w-full bg-clinical-50 border border-clinical-200 rounded-lg px-4 py-2.5 text-sm text-clinical-950 focus:outline-none focus:border-clinical-700 font-mono">
+              </div>
+
+              <button type="submit" id="issueBtn" class="w-full bg-clinical-800 hover:bg-clinical-900 text-white font-semibold py-3 rounded-lg transition shadow-md flex items-center justify-center space-x-2">
+                <i data-lucide="award" class="w-4 h-4"></i>
+                <span>MINT SEPOLIA EMT LICENSE TOKEN</span>
+              </button>
+            </form>
+
+            <div id="licenseStatus"></div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- VERIFICATION SPEC SECTION -->
+  <section id="docs" class="py-16 bg-white border-t border-b border-clinical-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto">
+        <span class="inline-flex items-center space-x-2 bg-clinical-100 text-clinical-800 px-3 py-1 rounded-full text-xs font-semibold border border-clinical-200 tracking-wide uppercase mb-3">
+          <i data-lucide="file-text" class="w-3.5 h-3.5 text-clinical-700"></i>
+          <span>Protocol Specifications</span>
+        </span>
+        <h2 class="text-3xl font-extrabold text-clinical-950">Verification Specification</h2>
+        <p class="text-clinical-500 mt-2">Technical specs, authorization proofs, and audit logging standards for field deployment.</p>
+      </div>
+
+      <!-- Architecture Diagram Block -->
+      <div class="bg-clinical-900 text-sky-300 p-6 rounded-2xl border border-clinical-800 shadow-lg overflow-x-auto">
+        <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center justify-center space-x-2 font-sans">
+          <i data-lucide="network" class="w-4 h-4 text-sky-400"></i>
+          <span>The Three-Tier Architecture</span>
+        </h3>
+        <pre class="font-mono text-xs sm:text-sm leading-relaxed text-sky-200 select-all mx-auto w-max text-center">
+                       ┌───────────────────────────────┐
+                       │  PARAMEDIC SCANS QR BARCODE   │
+                       └───────────────┬───────────────┘
+                                       │
+        ┌──────────────────────────────┼──────────────────────────────┐
+        ▼                              ▼                              ▼
+  [ 1. SEPOLIA ]               [ 2. ATTESTATION ]             [ 3. CREDITCOIN ]
+   Authorization                 Data Integrity                 Audit Logging
+─────────────────────────────────────────────────────────────────────────────────
+Verifies EMT Badge            Retrieves and decrypts          Generates immutable
+ERC-721 token on-chain        patient medical record           hash receipt of the
+(Is EMT authorized?)          from IPFS                       triage lookup
+        </pre>
+      </div>
+
+      <!-- Deep Dive Specification Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- 1. Sepolia -->
+        <div class="bg-clinical-50 p-6 rounded-xl border border-clinical-200 space-y-4 shadow-sm flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center space-x-2 text-clinical-700">
+              <i data-lucide="key" class="w-5 h-5"></i>
+              <h3 class="text-base font-bold text-clinical-950">1. Sepolia (EVM Testnet)</h3>
+            </div>
+            <div class="text-xs font-semibold text-clinical-700 uppercase tracking-wider">Identity &amp; Authorization</div>
+            <p class="text-clinical-500 text-xs leading-relaxed">
+              <strong>Role:</strong> EMT Credential Registry<br><br>
+              <strong>What it does:</strong> Sepolia hosts the smart contract that issues ERC-721 EMT Badges / Licenses to verified medical personnel.<br><br>
+              <strong>How it links:</strong> Before the terminal decrypts any sensitive patient data, it queries Sepolia using the paramedic's wallet address (<code class="font-mono bg-clinical-200 text-clinical-900 px-1 py-0.5 rounded">0x...</code>). If <code class="font-mono bg-clinical-200 text-clinical-900 px-1 py-0.5 rounded">balanceOf(paramedicAddress) &gt; 0</code>, the paramedic is confirmed as an active, credentialed first responder. If they do not hold a valid token on Sepolia, access is blocked.
+            </p>
+          </div>
+          <div class="bg-clinical-900 text-sky-300 p-3 rounded-lg text-[11px] font-mono break-all space-y-1">
+            <div><strong>Token:</strong> ERC-721 EMT Badge</div>
+            <div><strong>Chain:</strong> Sepolia Testnet</div>
+            <div><strong>Validation:</strong> balanceOf(address) &gt; 0</div>
+          </div>
+        </div>
+
+        <!-- 2. IPFS / Attestation -->
+        <div class="bg-clinical-50 p-6 rounded-xl border border-clinical-200 space-y-4 shadow-sm flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center space-x-2 text-clinical-700">
+              <i data-lucide="database" class="w-5 h-5"></i>
+              <h3 class="text-base font-bold text-clinical-950">2. IPFS / Attestation ("AttesCoin")</h3>
+            </div>
+            <div class="text-xs font-semibold text-clinical-700 uppercase tracking-wider">Data Storage &amp; Integrity</div>
+            <p class="text-clinical-500 text-xs leading-relaxed">
+              <strong>Role:</strong> Decentralized Storage &amp; Verification Layer<br><br>
+              <strong>What it does:</strong> Stores encrypted patient medical profiles (allergies, blood type, conditions, emergency contacts) off-chain using immutable Content Identifiers (CIDs).<br><br>
+              <strong>How it links:</strong> The physical QR code on the wristband or phone sticker maps directly to an IPFS CID. Once Sepolia approves the paramedic’s authorization, the system uses the CID embedded in the scanned barcode to fetch and decrypt the medical payload directly from the IPFS network.
+            </p>
+          </div>
+          <div class="bg-clinical-900 text-sky-300 p-3 rounded-lg text-[11px] font-mono break-all space-y-1">
+            <div><strong>CID Format:</strong> Base58 / v1 JSON</div>
+            <div><strong>Encryption:</strong> AES-256 Payload</div>
+            <div><strong>Access:</strong> Gateway Sync</div>
+          </div>
+        </div>
+
+        <!-- 3. Creditcoin -->
+        <div class="bg-clinical-50 p-6 rounded-xl border border-clinical-200 space-y-4 shadow-sm flex flex-col justify-between">
+          <div class="space-y-3">
+            <div class="flex items-center space-x-2 text-clinical-700">
+              <i data-lucide="file-check" class="w-5 h-5"></i>
+              <h3 class="text-base font-bold text-clinical-950">3. Creditcoin</h3>
+            </div>
+            <div class="text-xs font-semibold text-clinical-700 uppercase tracking-wider">Cryptographic Audit Trail</div>
+            <p class="text-clinical-500 text-xs leading-relaxed">
+              <strong>Role:</strong> Immutable Access Logging<br><br>
+              <strong>What it does:</strong> Serves as a dedicated layer for recording non-repudiable audit receipts of cross-chain or off-chain data requests.<br><br>
+              <strong>How it links:</strong> Every time a record lookup is performed in the field, the terminal hashes the request details:
+            </p>
+            <div class="bg-white border border-clinical-200 p-2 rounded text-[11px] font-mono text-clinical-800 break-all">
+              Receipt Hash = SHA-256(IPFS CID + Paramedic Wallet + Timestamp)
+            </div>
+            <p class="text-clinical-500 text-xs leading-relaxed">
+              This 32-byte hash is recorded on the Creditcoin ledger, creating a permanent, tamper-proof audit trail proving who accessed which patient file and when, preventing unauthorized data leaks or unauthorized scans.
+            </p>
+          </div>
+          <div class="bg-clinical-900 text-sky-300 p-3 rounded-lg text-[11px] font-mono break-all space-y-1">
+            <div><strong>Receipt:</strong> SHA-256 Hash</div>
+            <div><strong>Audit Log:</strong> Creditcoin L1 Ledger</div>
+            <div><strong>Integrity:</strong> Non-repudiable</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Summary Table -->
+      <div class="bg-clinical-50 rounded-xl border border-clinical-200 overflow-hidden shadow-sm">
+        <div class="px-6 py-4 bg-clinical-100 border-b border-clinical-200">
+          <h3 class="text-sm font-bold text-clinical-950 uppercase tracking-wider">Summary Table</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-clinical-200/60 text-clinical-800 font-bold uppercase tracking-wider text-[11px]">
+              <tr>
+                <th class="px-6 py-3">Protocol / Network</th>
+                <th class="px-6 py-3">Core Function</th>
+                <th class="px-6 py-3">Action during Triage Scan</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-clinical-200 font-mono text-xs">
+              <tr class="hover:bg-white transition-colors">
+                <td class="px-6 py-4 font-bold text-clinical-950">Sepolia</td>
+                <td class="px-6 py-4 text-clinical-600">EMT Authorization (ERC-721)</td>
+                <td class="px-6 py-4 text-clinical-800">Verifies paramedic wallet badge</td>
+              </tr>
+              <tr class="hover:bg-white transition-colors">
+                <td class="px-6 py-4 font-bold text-clinical-950">Attestation / IPFS</td>
+                <td class="px-6 py-4 text-clinical-600">Data Storage &amp; Retrieval</td>
+                <td class="px-6 py-4 text-clinical-800">Fetches encrypted medical file via CID</td>
+              </tr>
+              <tr class="hover:bg-white transition-colors">
+                <td class="px-6 py-4 font-bold text-clinical-950">Creditcoin</td>
+                <td class="px-6 py-4 text-clinical-600">On-Chain Audit Trail</td>
+                <td class="px-6 py-4 text-clinical-800">Records immutable 32-byte transaction hash</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-clinical-900 border-t border-clinical-800 py-8 text-center text-xs text-clinical-400">
+    <div class="max-w-7xl mx-auto px-4 space-y-2">
+      <p class="font-semibold text-white">ZK Medical Triage Protocol &bull; Emergency Response System</p>
+      <p class="font-mono text-clinical-300">Sepolia EVM &bull; IPFS Storage &bull; Creditcoin Ledger</p>
+    </div>
+  </footer>
+
+  <!-- APPLICATION SCRIPT -->
+  <script>
+    // Initialize Icons
+    lucide.createIcons();
+
+    // Slideshow Logic
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+    let slideInterval = setInterval(nextSlide, 5000);
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.style.opacity = i === index ? '1' : '0';
+      });
+    }
+
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    function prevSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      showSlide(currentSlide);
+    }
+
+    document.getElementById('nextSlide').addEventListener('click', () => {
+      clearInterval(slideInterval);
+      nextSlide();
+      slideInterval = setInterval(nextSlide, 5000);
+    });
+
+    document.getElementById('prevSlide').addEventListener('click', () => {
+      clearInterval(slideInterval);
+      prevSlide();
+      slideInterval = setInterval(nextSlide, 5000);
+    });
+
+    // Tab Switching Functionality
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-clinical-700', 'text-white', 'shadow-sm');
+        btn.classList.add('text-clinical-500', 'hover:text-clinical-950', 'hover:bg-white');
+      });
+
+      document.getElementById(tabId).classList.remove('hidden');
+      
+      const activeBtn = document.getElementById(`tab-${tabId.replace('Tab', '')}`);
+      activeBtn.classList.add('bg-clinical-700', 'text-white', 'shadow-sm');
+      activeBtn.classList.remove('text-clinical-500', 'hover:text-clinical-950', 'hover:bg-white');
+    }
+
+    // Patient Registration Handler
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const payload = {
+        name: document.getElementById('regName').value,
+        dob: document.getElementById('regDob').value,
+        bloodType: document.getElementById('regBlood').value,
+        allergies: document.getElementById('regAllergies').value,
+        emergencyContact: document.getElementById('regContact').value,
+        medicalConditions: document.getElementById('regConditions').value
+      };
+
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        const resultCard = document.getElementById('newRegistrationResult');
+        document.getElementById('newBarcodeImg').src = data.barcodeUrl;
+        document.getElementById('newBarcodeDetails').textContent = `${data.patient.name} | ID: ${data.patient.patientId}`;
+        document.getElementById('downloadBtn').href = data.barcodeUrl;
+        document.getElementById('downloadBtn').download = `${data.patient.patientId.toLowerCase()}_wristband.png`;
+        resultCard.classList.remove('hidden');
+        document.getElementById('registerForm').reset();
+      } else {
+        alert('Registration Error: ' + data.error);
+      }
+    });
+
+    // Triage Upload & Decode Handler
+    document.getElementById('triageUploadForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const outputContainer = document.getElementById('triageOutput');
+      const fileInput = document.getElementById('barcodeFile');
+      const emtAddress = document.getElementById('emtAddress').value;
+
+      if (!fileInput.files || fileInput.files.length === 0) {
+        alert('Please select a barcode image to upload.');
+        return;
+      }
+
+      outputContainer.innerHTML = '<p class="text-clinical-700 animate-pulse font-bold">Reading barcode image & fetching IPFS record...</p>';
+
+      const formData = new FormData();
+      formData.append('barcodeFile', fileInput.files[0]);
+      formData.append('emtAddress', emtAddress);
+
+      try {
+        const res = await fetch('/api/triage-file', { method: 'POST', body: formData });
+        const result = await res.json();
+
+        if (!result.success) {
+          outputContainer.innerHTML = `<div class="w-full bg-clinical-100 border border-clinical-300 text-clinical-950 p-4 rounded-lg font-bold">❌ Triage Error: ${result.error}</div>`;
+          return;
+        }
+
+        const p = result.data.patient;
+        const audit = result.data.auditTrail;
+
+        outputContainer.innerHTML = `
+          <div class="w-full space-y-4 text-left">
+            <div class="flex justify-between items-center border-b border-clinical-200 pb-3">
+              <div>
+                <h3 class="text-xl font-black text-clinical-950">${p.name}</h3>
+                <p class="text-xs text-clinical-500 font-mono">ID: ${p.patientId}</p>
+              </div>
+              <span class="bg-clinical-800 text-white px-3 py-1 rounded-md text-xs font-semibold shadow-sm">AUTHENTICATED</span>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3 text-xs">
+              <div><span class="text-clinical-500">Date of Birth:</span> <span class="font-bold text-clinical-950">${p.dob}</span></div>
+              <div><span class="text-clinical-500">Blood Type:</span> <span class="font-bold text-clinical-800">${p.bloodType}</span></div>
+              <div class="col-span-2"><span class="text-clinical-500">Emergency Contact:</span> <span class="font-bold text-clinical-950">${p.emergencyContact}</span></div>
+            </div>
+
+            <div>
+              <span class="text-xs text-clinical-500 block mb-1">Allergies:</span>
+              <div class="flex flex-wrap gap-1">
+                ${p.allergies && p.allergies.length > 0 ? p.allergies.map(a => `<span class="bg-clinical-100 text-clinical-900 border border-clinical-200 px-2 py-0.5 rounded text-xs font-bold">${a}</span>`).join('') : '<span class="text-xs text-clinical-400">None Reported</span>'}
+              </div>
+            </div>
+
+            <div>
+              <span class="text-xs text-clinical-500 block mb-1">Medical Conditions:</span>
+              <div class="flex flex-wrap gap-1">
+                ${p.medicalConditions && p.medicalConditions.length > 0 ? p.medicalConditions.map(c => `<span class="bg-clinical-100 text-clinical-900 px-2 py-0.5 rounded text-xs font-medium">${c}</span>`).join('') : '<span class="text-xs text-clinical-400">None Reported</span>'}
+              </div>
+            </div>
+
+            <div class="bg-clinical-100 border border-clinical-200 rounded-lg p-3 text-[11px] font-mono text-clinical-800 space-y-1 break-all">
+              <span class="text-clinical-700 font-bold block mb-1">Creditcoin Audit Receipt:</span>
+              <div>• IPFS CID: <span class="text-clinical-950">${audit.ipfsCid}</span></div>
+              <div>• Request ID: <span class="text-clinical-950">${audit.requestId}</span></div>
+              <div>• Creditcoin Tx: <span class="text-clinical-950">${audit.creditcoinTxHash}</span></div>
+              <div>• Timestamp: ${audit.timestamp}</div>
+            </div>
+          </div>
+        `;
+      } catch (err) {
+        outputContainer.innerHTML = `<div class="w-full bg-clinical-100 border border-clinical-300 text-clinical-950 p-4 rounded-lg font-bold">❌ Server Error: ${err.message}</div>`;
+      }
+    });
+
+    // Issue License Handler
+    document.getElementById('issueLicenseForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const statusDiv = document.getElementById('licenseStatus');
+      const issueBtn = document.getElementById('issueBtn');
+      const targetAddress = document.getElementById('targetEmtAddress').value;
+
+      statusDiv.innerHTML = '<p class="text-clinical-700 text-xs font-semibold animate-pulse mt-4">Broadcasting transaction to Sepolia testnet...</p>';
+      issueBtn.disabled = true;
+
+      try {
+        const res = await fetch('/api/issue-license', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ targetAddress })
+        });
+
+        const data = await res.json();
+        issueBtn.disabled = false;
+
+        if (data.success) {
+          statusDiv.innerHTML = `
+            <div class="bg-clinical-100 border border-clinical-200 text-clinical-950 p-4 rounded-xl text-xs space-y-1 break-all mt-4">
+              <h4 class="font-bold text-sm text-clinical-700">✅ License Token Issued Successfully!</h4>
+              <p><strong>Target EMT:</strong> ${data.targetAddress}</p>
+              <p><strong>Sepolia Tx Hash:</strong> ${data.txHash}</p>
+              <p><strong>Block:</strong> ${data.blockNumber}</p>
+            </div>
+          `;
+          document.getElementById('issueLicenseForm').reset();
+        } else {
+          statusDiv.innerHTML = `<div class="bg-clinical-100 border border-clinical-300 text-clinical-950 p-4 rounded-xl text-xs font-bold mt-4">❌ License Issuance Failed: ${data.error}</div>`;
+        }
+      } catch (err) {
+        issueBtn.disabled = false;
+        statusDiv.innerHTML = `<div class="bg-clinical-100 border border-clinical-300 text-clinical-950 p-4 rounded-xl text-xs font-bold mt-4">❌ Network Error: ${err.message}</div>`;
+      }
+    });
+  </script>
+
+</body>
+</html>
